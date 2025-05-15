@@ -1,6 +1,8 @@
-import React from 'react'
+import useAuthUser from '../hooks/useAuthUser.js';
 
 const OnboardingPage = () => {
+  const{isLoading,authUser} = useAuthUser();
+
   return (
     <div>
       <h2>Onboarding</h2>
