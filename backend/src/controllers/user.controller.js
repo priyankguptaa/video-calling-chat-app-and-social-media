@@ -9,7 +9,7 @@ export const getRecommendedUsers = async (req,res)=>{
         const recommendedUsers = await User.find({
             $and:[
                 {_id:{$ne: currentUserId}},
-                {$id:{$nin: currentUser.friends}},
+                {_id:{$nin: currentUser.friends}},
                 {isOnboarded:true},
             ]
         })
@@ -25,7 +25,7 @@ export const getMyFriends = async (req, res)=>{
     try {
         const user = await User.findById(req.user.id).select("friends").populate("friends","fullname profilePic nativeLanguage learningLanguage");
 
-        req.status(200).json(user.friends)
+        res.status(200).json(user.friends)
 
     } catch (error) {
         console.error("error in get recommendation Controller", error.message)
