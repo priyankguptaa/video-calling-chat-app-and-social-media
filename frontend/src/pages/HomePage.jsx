@@ -5,25 +5,23 @@ import { data, Link } from "react-router";
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import {NoFriendsFound}from "../components/NoFriendsFound.jsx"
+import { capitialize } from "../lib/utils.js";
 
 const HomePage = () => {  
   const queryClient= useQueryClient();
   const[outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set())
+ 
 
   const{data:friends=[], isLoading:loadingFriends} = useQuery({
     queryKey:["friends"],
     queryFn: getUserFriends
   })
-  
 
-  const { data:recommendedUsers=[], isLoading: loadingUsers } = useQuery({
-    queryKey: ["users"],
-    queryFn: getRecommendedUsers,
-    retry:false,
+
+  const {data:recommendedUsers=[], isLoading: loadingUsers } = useQuery({
+    queryKey:["users"],
+    queryFn: getRecommendedUsers
   });
-  
-  
-
 
   const{data:outgoingFriendReqs} = useQuery({
     queryKey:["outgoingFriendReqs"],
@@ -36,11 +34,11 @@ const HomePage = () => {
   })
 
   useEffect(()=>{
-    const outgoingIds = new Set()
-    if(outgoingFriendReqs && outgoingFriendReqs.length > 0){
+    const outgoingIds = new Set();
+    if( outgoingFriendReqs && outgoingFriendReqs.length > 0){
         outgoingFriendReqs.forEach((req)=>{
-          outgoingIds.add(req.id)
-        })
+          outgoingIds.add(req.recipient._id)
+        });
         setOutgoingRequestsIds(outgoingIds)
     }
   },[outgoingFriendReqs])
@@ -63,7 +61,7 @@ const HomePage = () => {
           ):friends.length === 0? (
             <NoFriendsFound/>
           ) :(
-            <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {friends.map((friend)=>(
                 <FriendCard key={friend._id} friend ={friend}/>
                 ))
@@ -74,7 +72,7 @@ const HomePage = () => {
         <section>
            <div className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
+              <div >
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Meet New Learners</h2>
                 <p className="opacity-70">
                   Discover perfect language exchange partners based on your profile
@@ -97,7 +95,7 @@ const HomePage = () => {
           ):
           (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recommendedUsers.recommendedUsers.map((user) => {
+              {recommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id)
                 return(
                   <div key={user._id}  className="card bg-base-200 hover:shadow-lg transition-all duration-300">
@@ -151,16 +149,14 @@ const HomePage = () => {
                     </div>   
                   </div>
                 )
-              })  }
+              }) }
             </div>
           ) }
         </section>
       </div>      
     </div>      
-        
   )
 }
 
 export default HomePage
 
-const capitialize = (str)=> str.charAt(0).toUpperCase() + str.slice(1)

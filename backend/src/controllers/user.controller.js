@@ -13,7 +13,7 @@ export const getRecommendedUsers = async (req,res)=>{
                 {isOnboarded:true},
             ]
         })
-        res.status(200).json({recommendedUsers})
+        res.status(200).json(recommendedUsers)
     } catch (error) {
         console.error("error in get recommendation Controller", error.message)
         res.status(500).json({message:"Internal server error"})
@@ -45,13 +45,14 @@ export const sendFriendRequest = async (req, res) => {
         const recipient = await User.findById(recipientId)
 
         if(!recipient){
-            return res.status(404).json({ message:"reciepient doesnot found"})     
+            return res.status(404).json({ message:"recipient doesnot found"})     
         }
 
-        if(recipient.friends.include(myId)){
+        if(recipient.friends.includes(myId)){
             return res.status(404).json({message:"you are already friends with this user"})
         }
-        
+
+
         const existingRequest = await FriendRequest.findOne({
             $or:[
                 {sender:myId, recipient:recipientId},
