@@ -20,8 +20,8 @@ const NotificationPage = () => {
     },
   });
 
-  const incomingRequests = friendRequests?.incomingReqs || []
-  const acceptedRequests = friendRequests?.acceptedReqs || []
+  const incomingRequests = friendRequests?.incomingReqs || [];
+  const acceptedRequests = friendRequests?.acceptedReqs || [];
 
 
   return (
@@ -68,7 +68,7 @@ const NotificationPage = () => {
                           </div>
 
                           <button
-                            className="btn btn-primary btn-sm"
+                            className={`btn btn-primary btn-sm ${request._id}`}
                             onClick={() => acceptRequestMutation(request._id)}
                             disabled={isPending}
                           >

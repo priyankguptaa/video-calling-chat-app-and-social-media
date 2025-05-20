@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOutgoingFriendReqs, getRecommendedUsers, getUserFriends, sendFriendRequest } from "../lib/api.js";
+import { getFriendRequests, getOutgoingFriendReqs, getRecommendedUsers, getUserFriends, sendFriendRequest } from "../lib/api.js";
 import { data, Link } from "react-router";
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
@@ -32,6 +32,15 @@ const HomePage = () => {
     mutationFn:sendFriendRequest,
     onSuccess: ()=> queryClient.invalidateQueries({queryKey:["outgoingFriendReqs"]})
   })
+  
+   const {data:friendRequests, isLoading} = useQuery({
+      queryKey:["friendRequests"],
+      queryFn:getFriendRequests,
+      onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:["friendRequests"]})}
+    })
+  
+    const incomingRequests = friendRequests?.incomingReqs || [];
 
   useEffect(()=>{
     const outgoingIds = new Set();
@@ -42,16 +51,20 @@ const HomePage = () => {
         setOutgoingRequestsIds(outgoingIds)
     }
   },[outgoingFriendReqs])
+  
+  
 
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
+      
       <div className="container mx-auto space-y-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Your Friends</h2>
           <Link to="/notifications" className="btn btn-outline btn-sm">
             <UsersIcon className="mr-2 size-4" />
             Friend Requests
+            <span className="badge badge-primary ml-2">{incomingRequests.length}</span>
           </Link>
         </div>
         {loadingFriends ? (
@@ -114,7 +127,6 @@ const HomePage = () => {
                           )}
                         </div>
                       </div>
-
                       <div className="flex flex-wrap gap-1.5">
                         <span className="badge badge-secondary">
                            {getLanguageFlag(user.nativeLanguage)} 
@@ -125,13 +137,12 @@ const HomePage = () => {
                           Learning:{capitialize(user.learningLanguage)}
                         </span>
                       </div>
-
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
 
                       <button className={`btn w-full mt-2 ${
-                        hasRequestBeenSent? "btn-disabled":"btn-primary"
+                        hasRequestBeenSent ? "btn-disabled":"btn-primary"
                         }`}
-                          onClick={() => sendRequestMutation(user._id)}
+                          onClick={() =>sendRequestMutation(user._id)}
                           disabled={hasRequestBeenSent || isPending}
                         >
                           {hasRequestBeenSent?(
