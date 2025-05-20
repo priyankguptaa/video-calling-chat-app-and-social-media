@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import {useParams} from "react-router"
-import {useAuthUser} from "../hooks/useAuthUser.js"
+import useAuthUser from "../hooks/useAuthUser.js"
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api.js";
 import { Channel,ChannelHeader, Chat,MessageInput,MessageList,Thread,Window } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
-import {ChatLoader} from "../components/ChatLoader.jsx";
+import ChatLoader from "../components/ChatLoader.jsx";
 import CallButton from "../components/CallButton.jsx";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY
 
 const ChatPage = () => {
-   const {id} = useParams();
+   const {id:targetUserId} = useParams();
 
    const [chatClient,setChatClient]= useState(null);
    const [loading,setLoading]= useState(null);
@@ -37,10 +37,10 @@ const ChatPage = () => {
           image:authUser.profilePic,
         },tokenData.token)
 
-        const channelId = [authUser._id,targetuserId].sort().join("-");
+        const channelId = [authUser._id,targetUserId].sort().join("-");
 
         const currChannel = client.channel("messaging",channelId,{
-          members:[authUser._id,targetuserId],
+          members:[authUser._id,targetUserId],
         });
         await currChannel.watch();
         setChatClient(client);
@@ -56,7 +56,7 @@ const ChatPage = () => {
 
     }
     initChat()
-  },[tokenData,authUser,targetuserId]);
+  },[tokenData,authUser,targetUserId]);
 
   const handleVideoCall = ()=> {
     if(channel){
