@@ -1,5 +1,5 @@
 import  { useState } from 'react'
-import { ShipWheelIcon} from "lucide-react"
+import { Landmark, ShipWheelIcon} from "lucide-react"
 import {Link} from 'react-router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { signup } from '../lib/api.js'
@@ -29,9 +29,10 @@ const SignUpPage = () => {
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">            
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
             <div className="mb-4 flex items-center justify-start gap-2">
-              <ShipWheelIcon className='size=9 text-primary' />
+              {/* <ShipWheelIcon className='size=9 text-primary' /> */}
+              <Landmark className='size-16 text-primary' />
               <span className='text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider'>
-                Streamify
+                Elemental Edge Design Studio
               </span>
             </div>
             {error && (
@@ -45,7 +46,7 @@ const SignUpPage = () => {
                 <div>
                   <h2 className='text-xl font-semibold'>Create an Account  </h2>
                     <p className='text-sm opacity-70'>
-                      join streamify and start your Language Learning adventure!
+                      join Elemental Edge Design Studio and start your Language Learning adventure!
                     </p>
                 </div>
                 <div className='space-y-3'>

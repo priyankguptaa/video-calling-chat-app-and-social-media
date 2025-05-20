@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "author": "Priyank gupta",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "dotenv": "^16.5.0",
     "express.js": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
+    "language_learning": "file:..",
     "mongoose": "^8.9.4",
     "stream-chat": "^9.1.0"
   },

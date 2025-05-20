@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser.js"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../lib/api.js";
-import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
+import { BellIcon, Landmark, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector.jsx";
 
 
@@ -25,9 +25,10 @@ const Navbar = () => {
           {isChatPage && (
             <div className="pl-5">
               <Link to="/" className="flex items-center gap-2.5">
-                <ShipWheelIcon className="size-9 text-primary" />
+                {/* <ShipWheelIcon className="size-9 text-primary" /> */}
+                <Landmark className='size-9 text-primary' />
                 <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-                  Streamify
+                  EEDS
                 </span>
               </Link>
             </div>

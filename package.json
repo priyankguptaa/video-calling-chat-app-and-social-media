@@ -1,0 +1,21 @@
+{
+  "name": "language_learning",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start":"npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priyankguptaa/video-calling-chat-app-and-social-media.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/priyankguptaa/video-calling-chat-app-and-social-media/issues"
+  },
+  "homepage": "https://github.com/priyankguptaa/video-calling-chat-app-and-social-media#readme",
+  "description": ""
+}
